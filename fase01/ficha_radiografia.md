@@ -1,0 +1,50 @@
+# Radiografía de una partida de NevWorld
+
+| Dato de mi partida                      | Resultado                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Nombre del archivo JSONL                | nevworld_558220143806760042_20261005_182759.jsonl                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| Número total de eventos                 | 4198                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| Número de columnas                      | 37                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| Nombres de las columnas                 | schema_version, run_id, seed, event_index, tick, type, started_at_utc, building_id, building_type, cell_x, cell_y, width, height, villager_id, activity, resource_type, amount_before, amount_after, amount_delta, population, constructed_buildings, wood_stock, food_stock, gold_stock, day, actor_id, target_id, interaction_type, topic, relationship_actor_to_target_after, relationship_target_to_actor_after, need_type, state, name, prey_type, age, cause |
+| Tipo del primer evento registrado       | simulation_started                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| Tipo de evento más frecuente y cantidad | villager_activity_changed: 2715                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| Recuento de todos los tipos de evento   | villager_activity_changed: 2715; villager_need_changed: 375; resource_changed: 322; social_interaction: 315; world_snapshot: 238; villager_drank: 67; villager_ate: 56; construction_abandoned: 42; construction_expired: 24; building_created: 23; hunt_completed: 14; villager_created: 4; simulation_started: 1; age_changed: 1; villager_died: 1                                                                                                               |
+| run_id de la primera fila               | 20261005_182759_558220143806760042_5ebf59dd10ea42d99f3df8b17025b9db                                                                                                                                                                                                                                                                                                                                                                                                |
+| Semilla de la primera fila              | 558220143806760042                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| Versión del esquema de la primera fila  | 2                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| Tick mínimo y tick máximo               | 0 a 143104                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| Resultado de las validaciones           | OK: las cuatro comprobaciones se han superado                                                                                                                                                                                                                                                                                                                                                                                                                      |
+
+## Recuento por tipo de evento
+
+| Tipo de evento            | Cantidad |
+| ------------------------- | -------: |
+| villager_activity_changed |     2715 |
+| villager_need_changed     |      375 |
+| resource_changed          |      322 |
+| social_interaction        |      315 |
+| world_snapshot            |      238 |
+| villager_drank            |       67 |
+| villager_ate              |       56 |
+| construction_abandoned    |       42 |
+| construction_expired      |       24 |
+| building_created          |       23 |
+| hunt_completed            |       14 |
+| villager_created          |        4 |
+| simulation_started        |        1 |
+| age_changed               |        1 |
+| villager_died             |        1 |
+
+## Respuestas
+
+Borrador para revisar y expresar con tus palabras.
+
+1. ¿Qué te permite afirmar el recuento sobre tu partida? ¿Por qué el tipo más frecuente no tiene que ser el más importante?
+   El recuento permite conocer cuántos eventos se han registrado de cada tipo. En mi partida, los cambios de actividad de los aldeanos son los más frecuentes. Una muerte o un cambio de edad pueden tener más impacto aunque aparezcan una sola vez.
+
+1. ¿Por qué una celda vacía no significa necesariamente que el registro esté mal?
+   Cada tipo de evento tiene campos diferentes. Por ejemplo, un cambio de actividad incluye la actividad del aldeano, mientras que un snapshot incluye la población y las reservas. Al reunirlos en una tabla, aparecen valores ausentes en los campos que no corresponden a cada evento.
+
+1. ¿Qué sabes ahora del archivo y qué pregunta sobre tu partida necesitaría un análisis posterior?
+   Ahora conozco el tamaño de la tabla, sus columnas, la identidad de la sesión, los tipos de evento etc.
+   Las cuatro validaciones básicas se han superado, aunque eso no garantiza que todos los datos sean correctos. Para saber por qué murió un aldeano necesitaría analizar los eventos de sus necesidades y actividades antes de la muerte.

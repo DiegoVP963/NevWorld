@@ -53,6 +53,34 @@ Explica qué representa una fila de `hunts.csv` y cuál es el denominador de los
 
 Si la tabla está vacía, muestra un mensaje indicando que no hay cacerías completadas registradas. El total será cero; no intentes acceder al primer elemento de un recuento vacío ni inventes una presa predominante. Un día que no aparece en el recuento no es automáticamente un día observado con cero cacerías: este archivo no determina por sí solo todo el periodo de observación.
 
+### Respuestas
+
+Se registraron **14 cacerías completadas**.
+
+| Presa | Recuento | Porcentaje |
+| --- | ---: | ---: |
+| sheep | 11 | 78,6 % |
+| deer | 3 | 21,4 % |
+
+Uso `hunts['prey_type'].value_counts()` para contar las presas de mayor a menor frecuencia. Para los porcentajes uso `(hunts['prey_type'].value_counts(normalize=True) * 100).round(1)`.
+
+| Día | Cacerías |
+| ---: | ---: |
+| 1 | 1 |
+| 2 | 4 |
+| 3 | 1 |
+| 4 | 1 |
+| 5 | 3 |
+| 6 | 1 |
+| 10 | 1 |
+| 11 | 2 |
+
+Uso `hunts['simulation_day'].value_counts().sort_index()` para ordenar por día.
+
+Una fila de `hunts.csv` representa una cacería completada registrada, con el aldeano, la presa y el momento en que ocurrió. El denominador de los porcentajes es el total de **14 cacerías registradas**; no es el número de aldeanos ni el tiempo dedicado a cazar.
+
+Los días que no aparecen no demuestran que hubiera cero cacerías durante un día observado, porque esta tabla no define todo el periodo de observación.
+
 ## 3. Examina los cambios de comida
 
 Filtra las filas de `resources` cuyo `resource_type` sea `food`. Después calcula:
@@ -64,6 +92,16 @@ Filtra las filas de `resources` cuyo `resource_type` sea `food`. Después calcul
 Ejemplo inventado: +12, −5 y +3 producen incrementos de 15, reducciones de 5 y balance de +10. No es el resultado que debes entregar: usa tus datos.
 
 Si no hay eventos de comida, las tres sumas serán cero, pero muestra también un aviso. Ese cero significa que no hay variaciones registradas que sumar; no demuestra que el mundo no tuviera comida.
+
+### Respuestas
+
+Filtro la comida con `food = resources[resources['resource_type'] == 'food']`.
+
+- **Incrementos registrados: 301 unidades.** Uso `food[food['amount_delta'] > 0]['amount_delta'].sum()` para sumar los cambios positivos.
+- **Reducciones registradas: 132 unidades.** Uso `food[food['amount_delta'] < 0]['amount_delta'].abs().sum()` para sumar los cambios negativos como cantidades positivas.
+- **Balance neto: +169 unidades.** Uso `food['amount_delta'].sum()` para sumar todos los cambios conservando su signo. Coincide con `301 - 132 = 169`.
+
+Hay eventos de comida registrados, así que no se aplica el aviso de ausencia de datos. El balance describe el cambio registrado, no las existencias finales ni el origen de los incrementos.
 
 ## 4. Comprueba y guarda el informe
 

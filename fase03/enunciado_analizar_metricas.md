@@ -58,22 +58,22 @@ Si la tabla está vacía, muestra un mensaje indicando que no hay cacerías comp
 Se registraron **14 cacerías completadas**.
 
 | Presa | Recuento | Porcentaje |
-| --- | ---: | ---: |
-| sheep | 11 | 78,6 % |
-| deer | 3 | 21,4 % |
+| ----- | -------: | ---------: |
+| sheep |       11 |     78,6 % |
+| deer  |        3 |     21,4 % |
 
 Uso `hunts['prey_type'].value_counts()` para contar las presas de mayor a menor frecuencia. Para los porcentajes uso `(hunts['prey_type'].value_counts(normalize=True) * 100).round(1)`.
 
 | Día | Cacerías |
-| ---: | ---: |
-| 1 | 1 |
-| 2 | 4 |
-| 3 | 1 |
-| 4 | 1 |
-| 5 | 3 |
-| 6 | 1 |
-| 10 | 1 |
-| 11 | 2 |
+| --: | -------: |
+|   1 |        1 |
+|   2 |        4 |
+|   3 |        1 |
+|   4 |        1 |
+|   5 |        3 |
+|   6 |        1 |
+|  10 |        1 |
+|  11 |        2 |
 
 Uso `hunts['simulation_day'].value_counts().sort_index()` para ordenar por día.
 
@@ -91,7 +91,7 @@ Filtra las filas de `resources` cuyo `resource_type` sea `food`. Después calcul
 
 Ejemplo inventado: +12, −5 y +3 producen incrementos de 15, reducciones de 5 y balance de +10. No es el resultado que debes entregar: usa tus datos.
 
-Si no hay eventos de comida, las tres sumas serán cero, pero muestra también un aviso. Ese cero significa que no hay variaciones registradas que sumar; no demuestra que el mundo no tuviera comida.
+Si no hay eventos de comida, las tres sumas serán cero, pero muestra también un aviso. Ese cero significa que no hay variaciones registradas que sumar. Esto demuestra que el mundo no tuviera comida.
 
 ### Respuestas
 
@@ -131,6 +131,29 @@ Ejecuta desde la raíz de `bigdata-game`, con el entorno que tenga pandas:
 python scripts/actividades/03_informe_caza.py
 ```
 
+### Respuestas
+
+He usado `assert` para comprobar que los resultados cuadran:
+
+- Por presa: `11 + 3 = 14`, coincide con el total de cacerías.
+- Por día: `1 + 4 + 1 + 1 + 3 + 1 + 1 + 2 = 14`, también coincide.
+- Comida: `301 - 132 = 169`, coincide con el balance neto.
+- Los porcentajes sin redondear suman aproximadamente 100. Lo compruebo con `abs(percentages.sum() - 100) < 0.000001`.
+
+Al ejecutar el script aparece `Comprobaciones: OK`, así que han pasado todas.
+
+Creo el resumen con `pd.DataFrame` y una lista de diccionarios. Después uso `summary.to_csv(REPORTS_DIR / 'hunting_summary.csv', index=False)` para guardarlo sin el índice de pandas.
+
+| metric | value |
+| --- | ---: |
+| hunt_events | 14 |
+| food_change_events | 125 |
+| food_gains | 301 |
+| food_reductions | 132 |
+| food_net_change | 169 |
+
+El archivo se guarda en `reports/hunting_summary.csv`. Los datos son de mi RAW `nevworld_558220143806760042_20261005_182759.jsonl`, de la partida `20261005_182759_558220143806760042_5ebf59dd10ea42d99f3df8b17025b9db`.
+
 ## 5. Defiende tus conclusiones
 
 Responde utilizando tus resultados reales:
@@ -140,6 +163,18 @@ Responde utilizando tus resultados reales:
 3. ¿El día con más cacerías fue necesariamente el día en que se dedicó más tiempo a cazar?
 4. ¿El balance neto indica las existencias finales de comida? ¿Qué información faltaría?
 5. ¿Puedes demostrar que todos los incrementos de comida se deben a la caza? ¿Qué vínculo entre eventos necesitarías para justificarlo?
+
+### Respuestas
+
+1. La presa que más aparece es `sheep`, con 11 cacerías. `deer` aparece 3 veces, así que no hay empate.
+
+2. Es el porcentaje de cacerías. Divido las cacerías de cada presa entre las 14 cacerías registradas y multiplico por 100. Por eso sale 78,6 % de `sheep` y 21,4 % de `deer`.
+
+3. No necesariamente. El día 2 es el que tiene más cacerías completadas, con 4, pero no sé cuánto duró cada una. Puede haber otro día con menos cacerías pero en el que se pasó más tiempo cazando.
+
+4. No. El balance de +169 me dice cuánto cambió la comida según los eventos registrados. Para saber la comida final tendría que conocer la cantidad inicial y comprobar que tengo todos los cambios del mismo periodo. Entonces sumaría la comida inicial y el balance.
+
+5. No puedo demostrarlo solo con estas tablas. En `hunts.csv` veo que terminó una cacería, pero no cuánta comida dio. Necesitaría que el evento de cambio de comida indicara de qué cacería viene, por ejemplo con el identificador de esa cacería y la partida. Que los eventos ocurran cerca en el tiempo no basta para asegurar que todo el aumento viene de cazar.
 
 ## Ampliación para l@s más rápid@s: contrastar con las fotografías
 

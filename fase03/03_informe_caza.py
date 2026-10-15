@@ -57,3 +57,26 @@ print('\nREDUCCIONES DE COMIDA (MAGNITUD POSITIVA)')
 print(food_reductions)
 print('\nBALANCE NETO DE COMIDA')
 print(food_net_change)
+
+# 4. Comprueba y guarda el informe.
+assert hunts_counts.sum() == len(hunts), 'El recuento por presa no coincide'
+assert hunts_days_count.sum() == len(hunts), 'El recuento por día no coincide'
+assert abs(food_gains - food_reductions - food_net_change) < 0.000001, 'El balance no coincide'
+
+if not hunts.empty:
+    percentages = hunts['prey_type'].value_counts(normalize=True) * 100
+    assert abs(percentages.sum() - 100) < 0.000001, 'Los porcentajes no suman 100'
+
+print('\nComprobaciones: OK')
+summary = pd.DataFrame([
+    {'metric': 'hunt_events', 'value': len(hunts)},
+    {'metric': 'food_change_events', 'value': len(food)},
+    {'metric': 'food_gains', 'value': food_gains},
+    {'metric': 'food_reductions', 'value': food_reductions},
+    {'metric': 'food_net_change', 'value': food_net_change},
+])
+REPORTS_DIR = Path('reports')
+REPORTS_DIR.mkdir(exist_ok=True)
+summary.to_csv(REPORTS_DIR / 'hunting_summary.csv', index=False)
+print('Archivo generado: reports/hunting_summary.csv')
+print(summary.to_string(index=False))

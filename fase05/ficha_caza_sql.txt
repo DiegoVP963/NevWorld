@@ -1,0 +1,38 @@
+EL PARTE DE CAZA TAMBIÉN HABLA SQL
+
+Partida: 20261005_182759_558220143806760042_5ebf59dd10ea42d99f3df8b17025b9db
+RAW de origen: nevworld_558220143806760042_20261005_182759.jsonl
+Datos utilizados: data/processed/hunts.csv
+
+1. Conserva la información en otro formato
+He convertido hunts.csv a data/processed/parquet/hunts.parquet con PyArrow,
+sin guardar el índice. He comprobado que no hay presas sin informar.
+Tamaño del CSV: 1390 bytes.
+Tamaño del Parquet: 4511 bytes.
+
+2. Pregunta por las presas con SQL
+DuckDB lee el Parquet, agrupa por prey_type y cuenta las filas con COUNT(*).
+El resultado ordenado de mayor a menor es:
+sheep: 11 cacerías.
+deer: 3 cacerías.
+
+3. Comprueba y guarda
+La suma es 11 + 3 = 14, igual al número de filas de hunts.csv y al total de
+la actividad 03. Los recuentos por presa coinciden con la actividad 03 y
+las alturas de las barras de la 04. Cambiar de herramienta no cambia los datos.
+He contrastado los recuentos SQL con value_counts() de pandas.
+El resumen se guarda sin índice en reports/hunts_by_prey_sql.csv.
+
+4. Explica el resultado
+1) Cada fila representa un tipo de presa y el número de cacerías completadas
+registradas de ese tipo. Cuenta cacerías, no unidades de comida.
+2) AS hunt_count da un nombre a la columna calculada. Si lo cambio por
+AS total_cacerias, debo cambiar ORDER BY y los accesos a esa columna en las
+comprobaciones Python. La cabecera del CSV exportado cambia automáticamente.
+3) En mi partida ocupa menos el CSV: 1390 bytes frente a 4511 del Parquet.
+Eso no demuestra que CSV sea siempre mejor. Parquet incluye metadatos que
+pesan en tablas pequeñas, pero su almacenamiento columnar y compresión
+pueden ser más adecuados para analizar tablas grandes.
+
+Ejecución desde la raíz de bigdata-game:
+python scripts/actividades/05_caza_sql.py

@@ -1,0 +1,10 @@
+
+partida_A.jsonl | tamaño esperado: 860456 | recibido: 860456
+Huella esperada: 41609645eb9f8b58d26c2ccf43b93e8bfa1518eb70d4e85b7b84b14311ed06bc
+Huella calculada: 41609645eb9f8b58d26c2ccf43b93e8bfa1518eb70d4e85b7b84b14311ed06bc
+COINCIDE
+
+partida_B.jsonl | tamaño esperado: 860456 | recibido: 860456
+Huella esperada: 41609645eb9f8b58d26c2ccf43b93e8bfa1518eb70d4e85b7b84b14311ed06bc
+Huella calculada: ebb5ff98a16c8a42e9f396c09db42626b2f2dbfc3e1de6db131de31eb15bda23
+NO COINCIDE

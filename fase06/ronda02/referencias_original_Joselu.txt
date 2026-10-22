@@ -1,0 +1,10 @@
+
+Archivo: partida_A.jsonl
+Bytes: 860456
+SHA-256: 41609645eb9f8b58d26c2ccf43b93e8bfa1518eb70d4e85b7b84b14311ed06bc
+
+Archivo: partida_B.jsonl
+Bytes: 860456
+SHA-256: 41609645eb9f8b58d26c2ccf43b93e8bfa1518eb70d4e85b7b84b14311ed06bc
+
+

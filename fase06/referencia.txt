@@ -1,0 +1,3 @@
+archivo	bytes	sha256
+partida_A.jsonl	1049948	a37c42b322c6dacc8e76b34f2fc4a9529c76dd977c3fdad2d0e954757bd6dd28
+partida_B.jsonl	1049948	a37c42b322c6dacc8e76b34f2fc4a9529c76dd977c3fdad2d0e954757bd6dd28
